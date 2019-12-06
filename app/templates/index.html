@@ -1,1 +1,54 @@
-{% include 'header.html' %}
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Agent Experiment</title>
+
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <link href="../static/css/index.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <form action="/procForm" method="post">
+      <!-- Name入力 -->
+      <div class="form-group">
+        <label>ID</label>
+        <input type="name" class="form-control" placeholder="ID" name="id" />
+      </div>
+      <div class="form-group">
+        <p><b>性別</b></p>
+        <label for="gender">該当するものを選んでください。</label>
+        <select class="form-control" id="gender" name="gender">
+          <option>Men</option>
+          <option>Female</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <p><b>学年</b></p>
+        <label for="level">該当するものを選んでください。</label>
+        <select class="form-control" id="level" name="level">
+          <option>B1</option>
+          <option>B2</option>
+          <option>B3</option>
+          <option>B4</option>
+          <option>M1</option>
+          <option>M2</option>
+          <option>D1</option>
+          <option>D2</option>
+          <option>D3</option>
+        </select>
+      </div>
+      <!-- 送信ボタン -->
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </body>
+</html>
