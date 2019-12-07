@@ -18,42 +18,56 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
   </head>
   <body>
-    <form action="/procForm" method="post">
-      <!-- Name入力 -->
-      <div class="form-group">
-        <label>ID</label>
-        <input type="name" class="form-control" placeholder="ID" name="id" />
-      </div>
-      <div class="form-group">
-        <p><b>性別</b></p>
-        <label for="gender">該当するものを選んでください。</label>
-        <select class="form-control" id="gender" name="gender">
-          <option>Men</option>
-          <option>Female</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <p><b>学年</b></p>
-        <label for="level">該当するものを選んでください。</label>
-        <select class="form-control" id="level" name="level">
-          <option>B1</option>
-          <option>B2</option>
-          <option>B3</option>
-          <option>B4</option>
-          <option>M1</option>
-          <option>M2</option>
-          <option>D1</option>
-          <option>D2</option>
-          <option>D3</option>
-        </select>
-      </div>
-      <div id="comedy" alt="ここに表示されます。"></div>
-      <script
-        type="text/javascript"
-        src="../static/js/agent_experiment.js"
-      ></script>
-      <!-- 送信ボタン -->
-      <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
+    <div class="container">
+      <h1>Experience</h1>
+      <h2>協力ありがとうございます。</h2>
+    </div>
+    <div class="container">
+      <form action="/procForm" method="post">
+        <!-- Name入力 -->
+        <div class="form-group">
+          <label>ID</label>
+          <input type="name" class="form-control" placeholder="ID" name="id" />
+        </div>
+        <div class="form-group">
+          <p><b>性別</b></p>
+          <label for="gender">該当するものを選んでください。</label>
+          <select class="form-control" id="gender" name="gender">
+            <option>Men</option>
+            <option>Female</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <p><b>学年</b></p>
+          <label for="level">該当するものを選んでください。</label>
+          <select class="form-control" id="level" name="level">
+            <option>B1</option>
+            <option>B2</option>
+            <option>B3</option>
+            <option>B4</option>
+            <option>M1</option>
+            <option>M2</option>
+            <option>D1</option>
+            <option>D2</option>
+            <option>D3</option>
+          </select>
+        </div>
+        <div id="comedy" alt="ここに表示されます。"></div>
+<h3>この映画に対する鑑賞意欲</h3>
+        <input name="rating" type="radio" value="1" /> 1.全然観たくない
+        <input name="rating" type="radio" value="2" /> 2.あまり観たくない
+        <input name="rating" type="radio" value="3" /> 3.どちらでもない
+        <input name="rating" type="radio" value="4" /> 4.少し観たい
+        <input name="rating" type="radio" value="5" /> 5.とても観たい
+
+        <script
+          type="text/javascript"
+          src="../static/js/agent_experiment.js"
+        ></script>
+        <!-- 送信ボタン -->
+      </br>
+        <button type="submit" class="btn btn-primary btn-block">Submit</button>
+      </form>
+    </div>
   </body>
 </html>

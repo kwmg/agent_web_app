@@ -14,7 +14,8 @@ def post_action():
     id = request.form['id']
     gender = request.form['gender']
     level = request.form['level']
-    return render_template("result.html", id=id, gender=gender, level=level)
+    rating = request.form['rating']
+    return render_template("result.html", id=id, gender=gender, level=level, rating=rating)
 
 
 if __name__ == '__main__':
