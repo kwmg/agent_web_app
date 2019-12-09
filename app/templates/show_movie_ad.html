@@ -18,10 +18,10 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script>
       function time_out() {
-        location.href = "{{ target_page }}"
+        location.href = "/enq"
       }
       window.onload = function() {
-        setTimeout(time_out, 30 * 1000)
+        setTimeout(time_out, {{ wait_time }} * 1000)
       }
     </script>
   </head>
