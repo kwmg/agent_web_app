@@ -115,6 +115,10 @@ def proc_enquete():
     movie_list.append(movie_idx)
     session['movie_list'] = movie_list
     print(movie_list)
+    ag_list = session['ag_list']
+    ag_list.append(ag_pt)
+    session['ag_list'] = ag_list
+    print(ag_list)
     if len(movie_list) < REPEAT_NUM:
         return redirect(url_for('show_ad'))
     return redirect(url_for('finish'))
