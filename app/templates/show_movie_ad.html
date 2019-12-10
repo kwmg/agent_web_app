@@ -31,7 +31,13 @@
         30秒間広告を見てください。 30秒後に自動的にアンケート画面に遷移します。
       </p>
       <div id="movie_ad">
-        <img src="../static/img/{{ img_file }}" />
+        <img src="../static/img/{{ img_movie }}" />
+      </div>
+      <div id="ag_pt">
+        <img src="../static/img/{{ img_ag["settokusha"] }}" /> 
+        {% if img_ag["hisettokusha"]|length > 0 %}
+        <img src="../static/img/{{ img_ag["hisettokusha"] }}" />
+        {% endif %}
       </div>
     </div>
   </body>

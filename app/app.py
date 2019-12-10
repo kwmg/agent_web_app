@@ -13,12 +13,12 @@ dialogs = [{"settokusha": "星3つの映画です", "hisettokusha": "　"},
            {"settokusha": "これは見るべきですよ", "hisettokusha": "なぜおすすめなんですか"},
            {"settokusha": "foo", "hisettokusha": "hee"}]
 
-patterns = [{"settokusha": "1_m.gif", "hisettokusha": "user"},
-            {"settokusha": "2_m.gif", "hisettokusha": "user"},
-            {"settokusha": "3_m.gif", "hisettokusha": "user"},
-            {"settokusha": "4_m.gif", "hisettokusha": "user"},
-            {"settokusha": "5_f.gif", "hisettokusha": "user"},
-            {"settokusha": "6_f.gif", "hisettokusha": "user"},
+patterns = [{"settokusha": "1_m.gif", "hisettokusha": ""},
+            {"settokusha": "2_m.gif", "hisettokusha": ""},
+            {"settokusha": "3_m.gif", "hisettokusha": ""},
+            {"settokusha": "4_m.gif", "hisettokusha": ""},
+            {"settokusha": "5_f.gif", "hisettokusha": ""},
+            {"settokusha": "6_f.gif", "hisettokusha": ""},
             {"settokusha": "1_m.gif", "hisettokusha": "5_f.gif"},
             {"settokusha": "2_m.gif", "hisettokusha": "5_f.gif"},
             {"settokusha": "3_m.gif", "hisettokusha": "5_f.gif"},
@@ -51,6 +51,7 @@ def user_login():
     session['age'] = request.form['age']
     session['enq_res'] = []
     session['movie_list'] = []
+    session['ag_list'] = []
     return redirect(url_for('show_ad'))
 
 
@@ -58,13 +59,20 @@ def user_login():
 def show_ad():
     movie_list = list(range(len(list_movie_ads)))
     dup = list(set(movie_list) & set(session['movie_list']))
+    ag_list = list(range(len(patterns)))
+    ns = list(set(ag_list) & set(session['ag_list']))
     for d in dup:
         movie_list.remove(d)
+    for n in ns:
+        ag_list.remove(n)
     idx = movie_list[int(random.random() * len(movie_list))]
+    pt = ag_list[int(random.random() * len(ag_list))]
     session['current_movie'] = idx
+    session['current_ag'] = pt
     return render_template("show_movie_ad.html",
                            wait_time=5,  # 秒で指定
-                           img_file=list_movie_ads[idx])
+                           img_movie=list_movie_ads[idx],
+                           img_ag=patterns[pt])
 
 
 @app.route('/enq')
@@ -75,7 +83,9 @@ def show_enquete():
 @app.route('/procEnq', methods=['POST'])
 def proc_enquete():
     movie_idx = session['current_movie']
-    enq_entry = {'idx': movie_idx, 'rating': int(request.form['rating'])}
+    ag_pt = session['current_ag']
+    enq_entry = {'idx': movie_idx, 'pt': ag_pt,
+                 'rating': int(request.form['rating'])}
     enq_res = session['enq_res']
     enq_res.append(enq_entry)
     session['enq_res'] = enq_res
