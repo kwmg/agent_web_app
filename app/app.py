@@ -9,10 +9,6 @@ REPEAT_NUM = 4
 list_movie_ads = ['c1.gif', 'c2.gif', 'c3.gif', 'h1.gif',
                   'h2.gif', 'h3.gif', 'd1.gif', 'd2.gif', 'd3.gif']
 
-dialogs = [{"settokusha": "星3つの映画です", "hisettokusha": "　"},
-           {"settokusha": "これは見るべきですよ", "hisettokusha": "なぜおすすめなんですか"},
-           {"settokusha": "foo", "hisettokusha": "hee"}]
-
 patterns = [{"settokusha": "1_m.gif", "hisettokusha": ""},
             {"settokusha": "2_m.gif", "hisettokusha": ""},
             {"settokusha": "3_m.gif", "hisettokusha": ""},

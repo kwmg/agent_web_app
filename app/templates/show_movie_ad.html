@@ -30,14 +30,25 @@
       <p>
         30秒間広告を見てください。 30秒後に自動的にアンケート画面に遷移します。
       </p>
-      <div id="movie_ad">
-        <img src="../static/img/{{ img_movie }}" />
+      <div class="row">
+        <div id="movie_ad">
+          <img src="../static/img/{{ img_movie }}" />
+        </div>
       </div>
       <div id="ag_pt">
-        <img src="../static/img/{{ img_ag["settokusha"] }}" /> 
-        {% if img_ag["hisettokusha"]|length > 0 %}
-        <img src="../static/img/{{ img_ag["hisettokusha"] }}" />
-        {% endif %}
+        <div class="row">
+          <div class="col-sm-2 col-md-2">
+            <img src="../static/img/{{ img_ag["settokusha"] }}" width="200"
+            height="200"/>
+          </div>
+          <div class="col-sm-2 col-md-2"></div>
+          <div class="col-sm-2 col-md-2"></div>
+          <div class="col-sm-2 col-md-2">
+            {% if img_ag["hisettokusha"]|length > 0 %} <img
+            src="../static/img/{{ img_ag["hisettokusha"] }}" width="200"
+            height="200"/> {% endif %}
+          </div>
+        </div>
       </div>
     </div>
   </body>
