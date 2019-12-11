@@ -84,8 +84,8 @@ def proc_enquete():
     agent_pat = session['current_ag']
     enq_entry = {'idx': movie_idx, 'pt': agent_pat,
                  'rating': int(request.form['rating']),
-                 'credi': int(request.form['credi']),
-                 'satis': int(request.form['satis'])}
+                 'credit': int(request.form['credit']),
+                 'satisfy': int(request.form['satisfy'])}
     # update enquete result history
     enq_res = session['enq_res']
     enq_res.append(enq_entry)
