@@ -87,7 +87,7 @@ def show_ad():
     movie_idx = movie_list[int(random.random() * len(movie_list))]
     agent_pat = agent_list[int(random.random() * len(agent_list))]
     dialog_pat = dialogs[len(agent_patterns[agent_pat]) - 1]
-    dialog = dialogs[int(random.random() * len(dialog_pat))]
+    dialog = dialog_pat[int(random.random() * len(dialog_pat))]
     session['current_movie'] = movie_idx
     session['current_ag'] = agent_pat
     return render_template("show_movie_ad.html",
