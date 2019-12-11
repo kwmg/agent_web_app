@@ -1,4 +1,11 @@
 .DS_Store
-.python-version
 .vscode
+.python-version
+.envrc
+.venv/
+Pipfile
+Pipfile.lock
+__pycache__/
+*.py[cod]
+*$py.class
 *~
