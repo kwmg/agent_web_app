@@ -11,28 +11,28 @@ REPEAT_NUM = 4
 list_movie_ads = ['c1.gif', 'c2.gif', 'c3.gif', 'h1.gif',
                   'h2.gif', 'h3.gif', 'd1.gif', 'd2.gif', 'd3.gif']
 
-patterns = [["1_m.gif", ""],
-            ["2_m.gif", ""],
-            ["3_m.gif", ""],
-            ["4_m.gif", ""],
-            ["5_f.gif", ""],
-            ["6_f.gif", ""],
-            ["1_m.gif", "5_f.gif"],
-            ["2_m.gif", "5_f.gif"],
-            ["3_m.gif", "5_f.gif"],
-            ["4_m.gif", "5_f.gif"],
-            ["1_m.gif", "6_f.gif"],
-            ["2_m.gif", "6_f.gif"],
-            ["3_m.gif", "6_f.gif"],
-            ["4_m.gif", "6_f.gif"],
-            ["5_f.gif", "1_m.gif"],
-            ["5_f.gif", "2_m.gif"],
-            ["5_f.gif", "3_m.gif"],
-            ["5_f.gif", "4_m.gif"],
-            ["6_f.gif", "1_m.gif"],
-            ["6_f.gif", "2_m.gif"],
-            ["6_f.gif", "3_m.gif"],
-            ["6_f.gif", "4_m.gif"]]
+agent_patterns = [["1_m.gif"],
+                  ["2_m.gif"],
+                  ["3_m.gif"],
+                  ["4_m.gif"],
+                  ["5_f.gif"],
+                  ["6_f.gif"],
+                  ["1_m.gif", "5_f.gif"],
+                  ["2_m.gif", "5_f.gif"],
+                  ["3_m.gif", "5_f.gif"],
+                  ["4_m.gif", "5_f.gif"],
+                  ["1_m.gif", "6_f.gif"],
+                  ["2_m.gif", "6_f.gif"],
+                  ["3_m.gif", "6_f.gif"],
+                  ["4_m.gif", "6_f.gif"],
+                  ["5_f.gif", "1_m.gif"],
+                  ["5_f.gif", "2_m.gif"],
+                  ["5_f.gif", "3_m.gif"],
+                  ["5_f.gif", "4_m.gif"],
+                  ["6_f.gif", "1_m.gif"],
+                  ["6_f.gif", "2_m.gif"],
+                  ["6_f.gif", "3_m.gif"],
+                  ["6_f.gif", "4_m.gif"]]
 
 """
 patterns = [{"settokusha": "1_m.gif", "hisettokusha": ""},
@@ -74,7 +74,7 @@ def user_login():
     session['age'] = request.form['age']
     session['enq_res'] = []
     session['movie_list'] = []
-    session['ag_list'] = []
+    session['agent_list'] = []
     return redirect(url_for('show_ad'))
 
 
@@ -82,17 +82,19 @@ def user_login():
 def show_ad():
     movie_list = [m for m in range(
         len(list_movie_ads)) if m not in session['movie_list']]
-    ag_list = [a for a in range(len(patterns)) if a not in session['ag_list']]
-    idx = movie_list[int(random.random() * len(movie_list))]
-    pt = ag_list[int(random.random() * len(ag_list))]
-    d = dialogs[int(random.random() * len(dialogs))]
-    session['current_movie'] = idx
-    session['current_ag'] = pt
+    agent_list = [a for a in range(
+        len(agent_patterns)) if a not in session['agent_list']]
+    movie_idx = movie_list[int(random.random() * len(movie_list))]
+    agent_pat = agent_list[int(random.random() * len(agent_list))]
+    dialog_pat = dialogs[len(agent_list[agent_pat]) - 1]
+    dialog = dialogs[int(random.random() * len(dialog_pat))]
+    session['current_movie'] = movie_idx
+    session['current_ag'] = agent_pat
     return render_template("show_movie_ad.html",
                            wait_time=10,  # 秒で指定
-                           img_movie=list_movie_ads[idx],
-                           img_ag=patterns[pt],
-                           dialog=d)
+                           img_movie=list_movie_ads[movie_idx],
+                           img_ag=agent_patterns[agent_pat],
+                           dialog=dialog)
 
 
 @app.route('/enq')
@@ -102,23 +104,28 @@ def show_enquete():
 
 @app.route('/procEnq', methods=['POST'])
 def proc_enquete():
+    # prepare enquete result entry
     movie_idx = session['current_movie']
-    ag_pt = session['current_ag']
-    enq_entry = {'idx': movie_idx, 'pt': ag_pt,
+    agent_pat = session['current_ag']
+    enq_entry = {'idx': movie_idx, 'pt': agent_pat,
                  'rating': int(request.form['rating']),
                  'credi': int(request.form['credi']),
                  'satis': int(request.form['satis'])}
+    # update enquete result history
     enq_res = session['enq_res']
     enq_res.append(enq_entry)
     session['enq_res'] = enq_res
+    # update movie history
     movie_list = session['movie_list']
     movie_list.append(movie_idx)
     session['movie_list'] = movie_list
     print(movie_list)
-    ag_list = session['ag_list']
-    ag_list.append(ag_pt)
-    session['ag_list'] = ag_list
+    # update agent pattern history
+    ag_list = session['agent_list']
+    ag_list.append(agent_pat)
+    session['agent_list'] = ag_list
     print(ag_list)
+    # check repeat time
     if len(movie_list) < REPEAT_NUM:
         return redirect(url_for('show_ad'))
     return redirect(url_for('finish'))
