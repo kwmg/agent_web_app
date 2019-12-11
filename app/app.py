@@ -80,13 +80,13 @@ def user_login():
 
 @app.route('/ad')
 def show_ad():
-    movie_list = [m for m in range(
-        len(list_movie_ads)) if m not in session['movie_list']]
-    agent_list = [a for a in range(
-        len(agent_patterns)) if a not in session['agent_list']]
+    movie_list = [m for m in range(len(list_movie_ads))
+                  if m not in session['movie_list']]
+    agent_list = [a for a in range(len(agent_patterns))
+                  if a not in session['agent_list']]
     movie_idx = movie_list[int(random.random() * len(movie_list))]
     agent_pat = agent_list[int(random.random() * len(agent_list))]
-    dialog_pat = dialogs[len(agent_list[agent_pat]) - 1]
+    dialog_pat = dialogs[len(agent_patterns[agent_pat]) - 1]
     dialog = dialogs[int(random.random() * len(dialog_pat))]
     session['current_movie'] = movie_idx
     session['current_ag'] = agent_pat
