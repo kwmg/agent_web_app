@@ -29,4 +29,7 @@ dialog4 = [
     [1, "わかった。チェックしてみるよ！"],
 ]
 
-dialogs = [dialog1, dialog2, dialog3, dialog4]
+dialogs = [
+    [dialog2],
+    [dialog1, dialog3, dialog4]
+]
