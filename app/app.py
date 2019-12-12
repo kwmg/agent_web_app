@@ -6,6 +6,8 @@ from dialogs import dialogs
 app = Flask(__name__)
 app.secret_key = 'db295528b34367fa2a5a5ece8217b4b712136c171d8a6c1fca622151736495c0'
 
+df = pd.DataFrame(colums=['ID', 'Gender'])
+
 REPEAT_NUM = 4
 
 list_movie_ads = ['c1.gif', 'c2.gif', 'c3.gif', 'h1.gif',
@@ -108,8 +110,9 @@ def proc_enquete():
 
 @app.route('/end')
 def finish():
-    df = pd.DataFrame({
-    })
+
+    df.to_csv("result.csv", index=False, encoding="utf-8")
+
     return '''
 <html>
 <head></head>
