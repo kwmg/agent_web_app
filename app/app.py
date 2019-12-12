@@ -34,31 +34,6 @@ agent_patterns = [["1_m.gif"],
                   ["6_f.gif", "3_m.gif"],
                   ["6_f.gif", "4_m.gif"]]
 
-"""
-patterns = [{"settokusha": "1_m.gif", "hisettokusha": ""},
-            {"settokusha": "2_m.gif", "hisettokusha": ""},
-            {"settokusha": "3_m.gif", "hisettokusha": ""},
-            {"settokusha": "4_m.gif", "hisettokusha": ""},
-            {"settokusha": "5_f.gif", "hisettokusha": ""},
-            {"settokusha": "6_f.gif", "hisettokusha": ""},
-            {"settokusha": "1_m.gif", "hisettokusha": "5_f.gif"},
-            {"settokusha": "2_m.gif", "hisettokusha": "5_f.gif"},
-            {"settokusha": "3_m.gif", "hisettokusha": "5_f.gif"},
-            {"settokusha": "4_m.gif", "hisettokusha": "5_f.gif"},
-            {"settokusha": "1_m.gif", "hisettokusha": "6_f.gif"},
-            {"settokusha": "2_m.gif", "hisettokusha": "6_f.gif"},
-            {"settokusha": "3_m.gif", "hisettokusha": "6_f.gif"},
-            {"settokusha": "4_m.gif", "hisettokusha": "6_f.gif"},
-            {"settokusha": "5_f.gif", "hisettokusha": "1_m.gif"},
-            {"settokusha": "5_f.gif", "hisettokusha": "2_m.gif"},
-            {"settokusha": "5_f.gif", "hisettokusha": "3_m.gif"},
-            {"settokusha": "5_f.gif", "hisettokusha": "4_m.gif"},
-            {"settokusha": "6_f.gif", "hisettokusha": "1_m.gif"},
-            {"settokusha": "6_f.gif", "hisettokusha": "2_m.gif"},
-            {"settokusha": "6_f.gif", "hisettokusha": "3_m.gif"},
-            {"settokusha": "6_f.gif", "hisettokusha": "4_m.gif"}]
-"""
-
 
 @app.route('/')
 def index():
@@ -109,8 +84,8 @@ def proc_enquete():
     agent_pat = session['current_ag']
     enq_entry = {'idx': movie_idx, 'pt': agent_pat,
                  'rating': int(request.form['rating']),
-                 'credi': int(request.form['credi']),
-                 'satis': int(request.form['satis'])}
+                 'credit': int(request.form['credit']),
+                 'satisfy': int(request.form['satisfy'])}
     # update enquete result history
     enq_res = session['enq_res']
     enq_res.append(enq_entry)
