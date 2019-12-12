@@ -19,13 +19,13 @@
     <script>
       function onRadioButtonChanged() {
         let ratingFlag = false, creditFlag = false, satisfyFlag = false;
-        for( let i = 0 ; i < document.enqForm.rating.length - 1 ; i++ ) {
+        for( let i = 0 ; i < document.enqForm.rating.length ; i++ ) {
           if( document.enqForm.rating[i].checked ) ratingFlag = true;
         }
-        for( let i = 0 ; i < document.enqForm.credit.length - 1 ; i++ ) {
+        for( let i = 0 ; i < document.enqForm.credit.length ; i++ ) {
           if( document.enqForm.credit[i].checked ) creditFlag = true;
         }
-        for( let i = 0 ; i < document.enqForm.satisfy.length - 1 ; i++ ) {
+        for( let i = 0 ; i < document.enqForm.satisfy.length ; i++ ) {
           if( document.enqForm.satisfy[i].checked ) satisfyFlag = true;
         }
         if( ratingFlag != true || creditFlag != true || satisfyFlag != true ){

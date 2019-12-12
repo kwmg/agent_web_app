@@ -1,6 +1,6 @@
 import random
 from flask import Flask, render_template, redirect, url_for, request, session
-
+import pandas as pd
 from dialogs import dialogs
 
 app = Flask(__name__)
@@ -108,6 +108,8 @@ def proc_enquete():
 
 @app.route('/end')
 def finish():
+    df = pd.DataFrame({
+    })
     return '''
 <html>
 <head></head>
