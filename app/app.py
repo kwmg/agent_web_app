@@ -6,7 +6,8 @@ from dialogs import dialogs
 app = Flask(__name__)
 app.secret_key = 'db295528b34367fa2a5a5ece8217b4b712136c171d8a6c1fca622151736495c0'
 
-df = pd.DataFrame(columns=['ID', 'Gender'])
+df = pd.DataFrame(columns=['ID', 'Gender', 'Age', 'Movie', 'Agent', 'Rating', 'Credit', 'Satisfy'],
+                  index=['dialog1', 'dialog2', 'dialog3', 'dialog4'])
 
 REPEAT_NUM = 4
 
