@@ -1,12 +1,11 @@
 import random
+import datetime
 from flask import Flask, render_template, redirect, url_for, request, session
 import pandas as pd
 from dialogs import dialogs
 
 app = Flask(__name__)
 app.secret_key = 'db295528b34367fa2a5a5ece8217b4b712136c171d8a6c1fca622151736495c0'
-
-df = pd.DataFrame(columns=['ID', 'Gender'])
 
 REPEAT_NUM = 4
 
@@ -84,10 +83,16 @@ def proc_enquete():
     # prepare enquete result entry
     movie_idx = session['current_movie']
     agent_pat = session['current_ag']
-    enq_entry = {'idx': movie_idx, 'pt': agent_pat,
-                 'rating': int(request.form['rating']),
-                 'credit': int(request.form['credit']),
-                 'satisfy': int(request.form['satisfy'])}
+    enq_entry = {
+        'date': datetime.datetime.now().isoformat(),
+        'user_id': session['user_id'],
+        'gender': session['gender'],
+        'age': session['age'],
+        'idx': movie_idx,
+        'pt': agent_pat,
+        'rating': int(request.form['rating']),
+        'credit': int(request.form['credit']),
+        'satisfy': int(request.form['satisfy'])}
     # update enquete result history
     enq_res = session['enq_res']
     enq_res.append(enq_entry)
@@ -110,9 +115,10 @@ def proc_enquete():
 
 @app.route('/end')
 def finish():
-
-    df.to_csv("result.csv", index=False, encoding="utf-8")
-
+    enq_res = session['enq_res']
+    cols = {k: [d.get(k) for d in enq_res] for k in enq_res[0].keys()}
+    df = pd.DataFrame(cols)
+    df.to_csv('{}.csv'.format(enq_res[0]['user_id']))
     return '''
 <html>
 <head></head>
