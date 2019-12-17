@@ -1,13 +1,19 @@
+import os
 import random
 import datetime
 from flask import Flask, render_template, redirect, url_for, request, session
+from werkzeug.utils import secure_filename
 import pandas as pd
 from dialogs import dialogs
 
+SAVE_FOLDER = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'saved_csv')
+ENQUETE_REPEAT_TIME = 4
+
 app = Flask(__name__)
 app.secret_key = 'db295528b34367fa2a5a5ece8217b4b712136c171d8a6c1fca622151736495c0'
+app.config['SAVE_FOLDER'] = SAVE_FOLDER
+app.config['ENQUETE_REPEAT_TIME'] = ENQUETE_REPEAT_TIME
 
-REPEAT_NUM = 4
 
 list_movie_ads = ['c1.gif', 'c2.gif', 'c3.gif', 'h1.gif',
                   'h2.gif', 'h3.gif', 'd1.gif', 'd2.gif', 'd3.gif']
@@ -112,7 +118,7 @@ def proc_enquete():
     session['agent_list'] = ag_list
     print(ag_list)
     # check repeat time
-    if len(movie_list) < REPEAT_NUM:
+    if len(movie_list) < app.config['ENQUETE_REPAET_TIME']:
         return redirect(url_for('show_ad'))
     return redirect(url_for('finish'))
 
@@ -122,7 +128,13 @@ def finish():
     enq_res = session['enq_res']
     cols = {k: [d.get(k) for d in enq_res] for k in enq_res[0].keys()}
     df = pd.DataFrame(cols)
-    df.to_csv('static/csv/{}.csv'.format(enq_res[0]['user_id']))
+    filename = secure_filename('{}.csv'.format(enq_res[0]['user_id']))
+    filepath = os.path.join(app.config['SAVE_FOLDER'], filename)
+    try:
+        os.makedirs(app.config['SAVE_FOLDER'])
+    except FileExistsError:
+        pass
+    df.to_csv(filepath)
     return '''
 <html>
 <head></head>
