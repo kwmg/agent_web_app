@@ -39,6 +39,8 @@
   <body>
     <div class="container">
       <form action="/procEnq" method="post" name="enqForm">
+        <h2 class ="display-4">アンケート</h1>
+        <hr class ="my-4"> 
         <h3>提示された映画に対する鑑賞意欲</h3>
         <input name="rating" type="radio" onchange="onRadioButtonChanged()" value="1" /> 1.全然観たくない
         <input name="rating" type="radio" onchange="onRadioButtonChanged()" value="2" /> 2.あまり観たくない
@@ -59,6 +61,7 @@
         <input name="satisfy" type="radio" onchange="onRadioButtonChanged()" value="3" /> 3.どちらでもない
         <input name="satisfy" type="radio" onchange="onRadioButtonChanged()" value="4" /> 4.少し役にたつ
         <input name="satisfy" type="radio" onchange="onRadioButtonChanged()" value="5" /> 5.とても役にたつ
+        <hr class ="my-4"> 
       </br>
       <button id="submitButton" type="submit" class="btn btn-primary btn-block" disabled>Submit</button>
       </form>
