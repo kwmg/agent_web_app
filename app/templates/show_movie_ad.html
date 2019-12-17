@@ -40,39 +40,38 @@
         </div>
       </div>
       <div id="ag_pt">
-        {% for d in dialog %}
         <div class="row">
-          {% if d[0] == 0 %}
-          <div class="col-sm-2 col-md-2">
+          <div class="col-3">
             <img
-              src="../static/img/{{ img_ag[d[0]] }}"
-              width="100"
-              height="100"
-            />
-          </div>
-          <div class="col-sm-6 col-md-6 animated fadeInLeft delay-1s">
-            {{ d[1] }}
-          </div>
-          <div class="col-sm-4 col-md-4"></div>
-          {% else %}
-          <div class="col-sm-4 col-md-4" align="right"></div>
-          <div
-            class="col-sm-6 col-md-6 animated fadeInRight delay-2s"
-            align="right"
-          >
-            {{ d[1]}}
-          </div>
-          <div class="col-sm-2 col-md-2">
-            <img
-              src="../static/img/{{ img_ag[d[0]] }}"
-              width="100"
-              height="100"
+              src="../static/img/{{ img_agent[0] }}"
               align="right"
-            />
+              />
           </div>
-          {% endif %}
+          <div class="col-6">
+            {% for d in dialog %}
+              <div class="row mt-2">
+                {% if d[0] == 0 %}
+                  <div class="col-9 p-2 border rounded-lg shadow">
+                    {{ d[1] }}
+                  </div>
+                  <div class="col-3"></div>
+                {% else %}
+                  <div class="col-3"></div>
+                  <div class="col-9 p-2 border rounded-lg shadow" align="right">
+                    {{ d[1] }}
+                  </div>
+                {% endif %}
+              </div>
+            {% endfor %}
+          </div>
+          <div class="col-3">
+            {% if img_agent[1] != None %}
+              <img
+                src="../static/img/{{ img_agent[1] }}"
+                />
+            {% endif %}
+          </div>
         </div>
-        {% endfor %}
       </div>
     </div>
   </body>
