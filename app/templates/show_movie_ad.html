@@ -42,33 +42,28 @@
       <div id="ag_pt">
         <div class="row">
           <div class="col-3">
-            <img
-              src="../static/img/{{ img_agent[0] }}"
-              align="right"
-              />
+            <img src="../static/img/{{ img_agent[0] }}" align="right" />
           </div>
           <div class="col-6">
             {% for d in dialog %}
-              <div class="row mt-2">
-                {% if d[0] == 0 %}
-                  <div class="col-9 p-2 border rounded-lg shadow">
-                    {{ d[1] }}
-                  </div>
-                  <div class="col-3"></div>
-                {% else %}
-                  <div class="col-3"></div>
-                  <div class="col-9 p-2 border rounded-lg shadow" align="right">
-                    {{ d[1] }}
-                  </div>
-                {% endif %}
+            <div class="row mt-2">
+              {% if d[0] == 0 %}
+              <div class="col-9 p-2 border rounded-lg shadow-sm">
+                {{ d[1] }}
               </div>
+              <div class="col-3"></div>
+              {% else %}
+              <div class="col-3"></div>
+              <div class="col-9 p-2 border rounded-lg shadow-sm" align="right">
+                {{ d[1] }}
+              </div>
+              {% endif %}
+            </div>
             {% endfor %}
           </div>
           <div class="col-3">
             {% if img_agent[1] != None %}
-              <img
-                src="../static/img/{{ img_agent[1] }}"
-                />
+            <img src="../static/img/{{ img_agent[1] }}" />
             {% endif %}
           </div>
         </div>
