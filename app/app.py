@@ -118,7 +118,7 @@ def proc_enquete():
     session['agent_list'] = ag_list
     print(ag_list)
     # check repeat time
-    if len(movie_list) < app.config['ENQUETE_REPAET_TIME']:
+    if len(movie_list) < app.config['ENQUETE_REPEAT_TIME']:
         return redirect(url_for('show_ad'))
     return redirect(url_for('finish'))
 
