@@ -51,6 +51,7 @@ def user_login():
     session['enq_res'] = []
     session['movie_list'] = []
     session['agent_list'] = []
+    session['current_d'] = []
     return redirect(url_for('show_ad'))
 
 
@@ -66,6 +67,7 @@ def show_ad():
     dialog = dialog_pat[int(random.random() * len(dialog_pat))]
     session['current_movie'] = movie_idx
     session['current_ag'] = agent_pat
+    session['current_d'] = dialog
     return render_template("show_movie_ad.html",
                            wait_time=10,  # 秒で指定
                            img_movie=list_movie_ads[movie_idx],
@@ -83,6 +85,7 @@ def proc_enquete():
     # prepare enquete result entry
     movie_idx = session['current_movie']
     agent_pat = session['current_ag']
+    d = session['current_d']
     enq_entry = {
         'date': datetime.datetime.now().isoformat(),
         'user_id': session['user_id'],
@@ -90,6 +93,7 @@ def proc_enquete():
         'age': session['age'],
         'idx': movie_idx,
         'pt': agent_pat,
+        'dialog': d,
         'rating': int(request.form['rating']),
         'credit': int(request.form['credit']),
         'satisfy': int(request.form['satisfy'])}
@@ -118,7 +122,7 @@ def finish():
     enq_res = session['enq_res']
     cols = {k: [d.get(k) for d in enq_res] for k in enq_res[0].keys()}
     df = pd.DataFrame(cols)
-    df.to_csv('{}.csv'.format(enq_res[0]['user_id']))
+    df.to_csv('static/csv/{}.csv'.format(enq_res[0]['user_id']))
     return '''
 <html>
 <head></head>
