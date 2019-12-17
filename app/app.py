@@ -18,28 +18,28 @@ app.config['ENQUETE_REPEAT_TIME'] = ENQUETE_REPEAT_TIME
 list_movie_ads = ['c1.gif', 'c2.gif', 'c3.gif', 'h1.gif',
                   'h2.gif', 'h3.gif', 'd1.gif', 'd2.gif', 'd3.gif']
 
-agent_patterns = [["1_m.gif"],
-                  ["2_m.gif"],
-                  ["3_m.gif"],
-                  ["4_m.gif"],
-                  ["5_f.gif"],
-                  ["6_f.gif"],
-                  ["1_m.gif", "5_f.gif"],
-                  ["2_m.gif", "5_f.gif"],
-                  ["3_m.gif", "5_f.gif"],
-                  ["4_m.gif", "5_f.gif"],
-                  ["1_m.gif", "6_f.gif"],
-                  ["2_m.gif", "6_f.gif"],
-                  ["3_m.gif", "6_f.gif"],
-                  ["4_m.gif", "6_f.gif"],
-                  ["5_f.gif", "1_m.gif"],
-                  ["5_f.gif", "2_m.gif"],
-                  ["5_f.gif", "3_m.gif"],
-                  ["5_f.gif", "4_m.gif"],
-                  ["6_f.gif", "1_m.gif"],
-                  ["6_f.gif", "2_m.gif"],
-                  ["6_f.gif", "3_m.gif"],
-                  ["6_f.gif", "4_m.gif"]]
+agent_patterns = [[0, ["1_m.gif", None]],
+                  [0, ["2_m.gif", None]],
+                  [0, ["3_m.gif", None]],
+                  [0, ["4_m.gif", None]],
+                  [0, ["5_f.gif", None]],
+                  [0, ["6_f.gif", None]],
+                  [1, ["1_m.gif", "5_f.gif"]],
+                  [1, ["2_m.gif", "5_f.gif"]],
+                  [1, ["3_m.gif", "5_f.gif"]],
+                  [1, ["4_m.gif", "5_f.gif"]],
+                  [1, ["1_m.gif", "6_f.gif"]],
+                  [1, ["2_m.gif", "6_f.gif"]],
+                  [1, ["3_m.gif", "6_f.gif"]],
+                  [1, ["4_m.gif", "6_f.gif"]],
+                  [1, ["5_f.gif", "1_m.gif"]],
+                  [1, ["5_f.gif", "2_m.gif"]],
+                  [1, ["5_f.gif", "3_m.gif"]],
+                  [1, ["5_f.gif", "4_m.gif"]],
+                  [1, ["6_f.gif", "1_m.gif"]],
+                  [1, ["6_f.gif", "2_m.gif"]],
+                  [1, ["6_f.gif", "3_m.gif"]],
+                  [1, ["6_f.gif", "4_m.gif"]]]
 
 
 @app.route('/')
@@ -69,7 +69,7 @@ def show_ad():
                   if a not in session['agent_list']]
     movie_idx = movie_list[int(random.random() * len(movie_list))]
     agent_pat = agent_list[int(random.random() * len(agent_list))]
-    dialog_pat = dialogs[len(agent_patterns[agent_pat]) - 1]
+    dialog_pat = dialogs[agent_patterns[agent_pat][0]]
     dialog = dialog_pat[int(random.random() * len(dialog_pat))]
     session['current_movie'] = movie_idx
     session['current_ag'] = agent_pat
@@ -77,13 +77,26 @@ def show_ad():
     return render_template("show_movie_ad.html",
                            wait_time=10,  # 秒で指定
                            img_movie=list_movie_ads[movie_idx],
-                           img_ag=agent_patterns[agent_pat],
+                           img_agent=agent_patterns[agent_pat][1],
                            dialog=dialog)
 
 
 @app.route('/enq')
 def show_enquete():
     return render_template("enquete.html")
+
+
+def save_data():
+    enq_res = session['enq_res']
+    cols = {k: [d.get(k) for d in enq_res] for k in enq_res[0].keys()}
+    df = pd.DataFrame(cols)
+    filename = secure_filename('{}.csv'.format(enq_res[0]['user_id']))
+    filepath = os.path.join(app.config['SAVE_FOLDER'], filename)
+    try:
+        os.makedirs(app.config['SAVE_FOLDER'])
+    except FileExistsError:
+        pass
+    df.to_csv(filepath)
 
 
 @app.route('/procEnq', methods=['POST'])
@@ -118,31 +131,15 @@ def proc_enquete():
     session['agent_list'] = ag_list
     print(ag_list)
     # check repeat time
-    if len(movie_list) < app.config['ENQUETE_REPEAT_TIME']:
-        return redirect(url_for('show_ad'))
-    return redirect(url_for('finish'))
+    if app.config['ENQUETE_REPEAT_TIME'] <= len(movie_list):
+        save_data()
+        return redirect(url_for('finish'))
+    return redirect(url_for('show_ad'))
 
 
 @app.route('/end')
 def finish():
-    enq_res = session['enq_res']
-    cols = {k: [d.get(k) for d in enq_res] for k in enq_res[0].keys()}
-    df = pd.DataFrame(cols)
-    filename = secure_filename('{}.csv'.format(enq_res[0]['user_id']))
-    filepath = os.path.join(app.config['SAVE_FOLDER'], filename)
-    try:
-        os.makedirs(app.config['SAVE_FOLDER'])
-    except FileExistsError:
-        pass
-    df.to_csv(filepath)
-    return '''
-<html>
-<head></head>
-<body>
-  <h1>ご協力ありがとうございました</h1>
-</body>
-</html>
-'''
+    return render_template("finish.html")
 
 
 if __name__ == '__main__':
