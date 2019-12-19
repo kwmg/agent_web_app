@@ -17,7 +17,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script>
       function time_out() {
-        location.href = "/enq"
+        location.href = "/agent"
       }
       window.onload = function() {
         setTimeout(time_out, {{ wait_time }} * 1000)
@@ -27,7 +27,7 @@
   <body>
     <div class="container">
       <p>
-        40秒間広告を見てください。 40秒後に自動的にアンケート画面に遷移します。
+        {{wait_time}}秒間広告を見てください。 {{wait_time}}秒後に自動的にアンケート画面に遷移します。
       </p>
       <div class="row">
         <div id="movie_ad">
@@ -35,49 +35,7 @@
         </div>
       </div>
     </div>
-    <div class="container">
-      <div id="ag_pt">
-        <div class="row">
-          <div class="col-3">
-            <img
-              src="../static/img/{{ img_agent[0] }}"
-              align="right"
-              width="300"
-              height="300"
-            />
-          </div>
-          <div class="col-6">
-            {% for d in dialog %}
-            <div class="row mt-2">
-              {% if d[0] == 0 %}
-              <div class="col-9 p-2 border rounded-lg shadow-sm">
-                {{ d[1] }}
-              </div>
-              <div class="col-3"></div>
-              {% else %}
-              <div class="col-3"></div>
-              <div
-                class="col-9 p-2 border rounded-lg shadow-sm"
-                align="right"
-                width="300"
-                height="300"
-              >
-                {{ d[1] }}
-              </div>
-              {% endif %}
-            </div>
-            {% endfor %}
-          </div>
-          <div class="col-3">
-            {% if img_agent[1] != None %}
-            <img
-              src="../static/img/{{ img_agent[1] }}"
-              width="300"
-              height="300"
-            />
-            {% endif %}
-          </div>
-          <p>
+        <p>
             <font sieze="1" color="gray"
               >ALL rights reserved. Copyright (c) by kwmg</font
             >

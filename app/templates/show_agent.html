@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Agent Experiment</title>
+
+    <link href="../static/css/index.css" rel="stylesheet" />
+    <link
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script>
+      function time_out() {
+        location.href = "/enq"
+      }
+      window.onload = function() {
+        setTimeout(time_out, {{ wait_time }} * 1000)
+      }
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <p>
+        {{ wait_time }}秒間広告を見てください。 {{ wait_time
+        }}秒後に自動的にアンケート画面に遷移します。
+      </p>
+    </div>
+    <div class="container">
+      <div id="ag_pt">
+        <div class="row">
+          <div class="col-3">
+            <img
+              src="../static/img/{{ img_agent[0] }}"
+              align="right"
+              width="300"
+              height="300"
+            />
+          </div>
+          <div class="col-6">
+            {% for d in dialog %}
+            <div class="row mt-2">
+              {% if d[0] == 0 %}
+              <div class="col-9 p-2 border rounded-lg shadow-sm">
+                {{ d[1] }}
+              </div>
+              <div class="col-3"></div>
+              {% else %}
+              <div class="col-3"></div>
+              <div
+                class="col-9 p-2 border rounded-lg shadow-sm"
+                align="right"
+                width="300"
+                height="300"
+              >
+                {{ d[1] }}
+              </div>
+              {% endif %}
+            </div>
+            {% endfor %}
+          </div>
+          <div class="col-3">
+            {% if img_agent[1] != None %}
+            <img
+              src="../static/img/{{ img_agent[1] }}"
+              width="300"
+              height="300"
+            />
+            {% endif %}
+          </div>
+          <p>
+            <font sieze="1" color="gray"
+              >ALL rights reserved. Copyright (c) by kwmg</font
+            >
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
