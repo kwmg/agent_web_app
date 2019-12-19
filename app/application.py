@@ -97,7 +97,7 @@ def show_ad():
     session['current_ag'] = agent_pat
     session['current_d'] = dialog
     return render_template("show_movie_ad.html",
-                           wait_time=10,  # 秒で指定
+                           wait_time=40,  # 秒で指定
                            img_movie=list_movie_ads[movie_idx],
                            img_agent=agent_patterns[agent_pat][1],
                            dialog=dialog)
