@@ -9,7 +9,7 @@ from dialogs import dialogs
 SAVE_FOLDER = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'saved_csv')
 ENQUETE_REPEAT_TIME = 4
 MOVIE_SHOW_PERIOD = 30
-AGENT_SHOW_PERIOD = 30
+AGENT_SHOW_PERIOD = 15
 
 application = Flask(__name__)
 application.secret_key = 'db295528b34367fa2a5a5ece8217b4b712136c171d8a6c1fca622151736495c0'
@@ -81,6 +81,17 @@ def show_movie_ad():
                            img_movie=list_movie_ads[movie_idx])
 
 
+@application.route('/enq1')
+def show_enquete_before():
+    return render_template("enquete.html")
+
+
+@application.route('/procEnq1', methods=['POST'])
+def proc_enquete1():
+    session['rating_before'] = int(request.form['rating'])
+    return redirect(url_for('show_agent'))
+
+
 @application.route('/agent')
 def show_agent():
     agent_list = [a for a in range(len(agent_patterns))
@@ -102,6 +113,7 @@ def show_agent():
     dl = session['dialog_list']
     dl[dialog_type].append(dialog_idx)
     session['dialog_list'] = dl
+    print(dl)
 
     session['current_ag'] = agent_pat
     session['current_d'] = dialog
@@ -111,9 +123,16 @@ def show_agent():
                            dialog=dialog)
 
 
-@application.route('/enq')
-def show_enquete():
-    return render_template("enquete.html")
+@application.route('/enq2')
+def show_enquete2():
+    return render_template("enquete2.html")
+
+
+@application.route('/procEnq2', methods=['POST'])
+def proc_enquete2():
+    session['rating_after'] = int(request.form['rating'])
+    session['credit'] = int(request.form['credit'])
+    return redirect(url_for("finish_enquete"))
 
 
 def save_data():
@@ -129,23 +148,20 @@ def save_data():
     df.to_csv(filepath)
 
 
-@application.route('/procEnq', methods=['POST'])
-def proc_enquete():
+@application.route('/finishEnq')
+def finish_enquete():
     # prepare enquete result entry
-    movie_idx = session['current_movie']
-    agent_pat = session['current_ag']
-    dialog = session['current_d']
     enq_entry = {
         'date': datetime.datetime.now().isoformat(),
         'user_id': session['user_id'],
         'gender': session['gender'],
         'age': session['age'],
-        'idx': movie_idx,
-        'pt': agent_pat,
-        'dialog': dialog,
-        'rating': int(request.form['rating']),
-        'credit': int(request.form['credit']),
-        'satisfy': int(request.form['satisfy'])}
+        'idx': session['current_movie'],
+        'pt': session['current_ag'],
+        'dialog': session['current_d'],
+        'rating_before': session['rating_before'],
+        'rating_after': session['rating_after'],
+        'credit': session['credit']}
     # update enquete result history
     enq_res = session['enq_res']
     enq_res.append(enq_entry)
