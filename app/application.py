@@ -80,6 +80,7 @@ def show_movie_ad():
                            wait_time=MOVIE_SHOW_PERIOD,  # 秒で指定
                            img_movie=list_movie_ads[movie_idx])
 
+
 @application.route('/agent')
 def show_agent():
     agent_list = [a for a in range(len(agent_patterns))
@@ -108,6 +109,7 @@ def show_agent():
                            wait_time=AGENT_SHOW_PERIOD,  # 秒で指定
                            img_agent=agent_patterns[agent_pat][1],
                            dialog=dialog)
+
 
 @application.route('/enq')
 def show_enquete():
