@@ -9,10 +9,10 @@ from dialogs import dialogs
 SAVE_FOLDER = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'saved_csv')
 ENQUETE_REPEAT_TIME = 4
 
-app = Flask(__name__)
-app.secret_key = 'db295528b34367fa2a5a5ece8217b4b712136c171d8a6c1fca622151736495c0'
-app.config['SAVE_FOLDER'] = SAVE_FOLDER
-app.config['ENQUETE_REPEAT_TIME'] = ENQUETE_REPEAT_TIME
+application = Flask(__name__)
+application.secret_key = 'db295528b34367fa2a5a5ece8217b4b712136c171d8a6c1fca622151736495c0'
+application.config['SAVE_FOLDER'] = SAVE_FOLDER
+application.config['ENQUETE_REPEAT_TIME'] = ENQUETE_REPEAT_TIME
 
 
 list_movie_ads = ['c1.gif', 'c2.gif', 'c3.gif', 'h1.gif',
@@ -42,12 +42,12 @@ agent_patterns = [[0, ["1_m.gif", None]],
                   [1, ["6_f.gif", "4_m.gif"]]]
 
 
-@app.route('/')
+@application.route('/')
 def index():
     return render_template("index.html")
 
 
-@app.route('/login', methods=['GET', 'POST'])
+@application.route('/login', methods=['GET', 'POST'])
 def user_login():
     if request.method == 'GET':
         return redirect(url_for('index'))
@@ -61,7 +61,7 @@ def user_login():
     return redirect(url_for('show_ad'))
 
 
-@app.route('/ad')
+@application.route('/ad')
 def show_ad():
     movie_list = [m for m in range(len(list_movie_ads))
                   if m not in session['movie_list']]
@@ -81,7 +81,7 @@ def show_ad():
                            dialog=dialog)
 
 
-@app.route('/enq')
+@application.route('/enq')
 def show_enquete():
     return render_template("enquete.html")
 
@@ -91,15 +91,15 @@ def save_data():
     cols = {k: [d.get(k) for d in enq_res] for k in enq_res[0].keys()}
     df = pd.DataFrame(cols)
     filename = secure_filename('{}.csv'.format(enq_res[0]['user_id']))
-    filepath = os.path.join(app.config['SAVE_FOLDER'], filename)
+    filepath = os.path.join(application.config['SAVE_FOLDER'], filename)
     try:
-        os.makedirs(app.config['SAVE_FOLDER'])
+        os.makedirs(application.config['SAVE_FOLDER'])
     except FileExistsError:
         pass
     df.to_csv(filepath)
 
 
-@app.route('/procEnq', methods=['POST'])
+@application.route('/procEnq', methods=['POST'])
 def proc_enquete():
     # prepare enquete result entry
     movie_idx = session['current_movie']
@@ -131,17 +131,17 @@ def proc_enquete():
     session['agent_list'] = ag_list
     print(ag_list)
     # check repeat time
-    if app.config['ENQUETE_REPEAT_TIME'] <= len(movie_list):
+    if application.config['ENQUETE_REPEAT_TIME'] <= len(movie_list):
         save_data()
         return redirect(url_for('finish'))
     return redirect(url_for('show_ad'))
 
 
-@app.route('/end')
+@application.route('/end')
 def finish():
     return render_template("finish.html")
 
 
 if __name__ == '__main__':
-    app.debug = True
-    app.run()
+    application.debug = True
+    application.run()
