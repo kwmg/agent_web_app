@@ -17,11 +17,14 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script>
       function onRadioButtonChanged() {
-        let ratingFlag = false;
+        let ratingFlag = false, creditFlag = false;
         for( let i = 0 ; i < document.enqForm.rating.length ; i++ ) {
           if( document.enqForm.rating[i].checked ) ratingFlag = true;
         }
-        if( ratingFlag != true ) {
+        for( let i = 0 ; i < document.enqForm.credit.length ; i++ ) {
+          if( document.enqForm.credit[i].checked ) creditFlag = true;
+        }
+        if( ratingFlag != true || creditFlag != true ){
           document.enqForm.submitButton.disabled = true;
         } else {
           document.enqForm.submitButton.disabled = false;
@@ -31,34 +34,63 @@
   </head>
   <body>
     <div class="container">
-      <form action="/procEnq1" method="post" name="enqForm">
+      <form action="/procEnq2" method="post" name="enqForm">
         <h2 class ="display-4">アンケート</h1>
         <hr class ="my-4">
-        <h3>提示された映画に対する鑑賞意欲</h3>
+        <h3>映画に対する鑑賞意欲</h3>
         <p>
-          広告を観た結果，映画をどれほど観たいと思いますか？
+          エージェントに推薦された結果，映画に対する鑑賞意欲はどう変わりましたか？
         </p>
         <div class="row">
           <div class="col-1"></div>
           <div class="col-2">
             <input name="rating" type="radio" onchange="onRadioButtonChanged()" value="1" />
-            1.全然観たくない
+            1.全く観たくなくなった
           </div>
           <div class="col-2">
             <input name="rating" type="radio" onchange="onRadioButtonChanged()" value="2" />
-            2.あまり観たくない
+            2.あまり観たくなくなった
           </div>
           <div class="col-2">
             <input name="rating" type="radio" onchange="onRadioButtonChanged()" value="3" />
-            3.どちらでもない
+            3.変わらない
           </div>
           <div class="col-2">
             <input name="rating" type="radio" onchange="onRadioButtonChanged()" value="4" />
-            4.少し観たい
+            4.少し観たくなった
           </div>
           <div class="col-2">
             <input name="rating" type="radio" onchange="onRadioButtonChanged()" value="5" />
-            5.とても観たい
+            5.とても観たくなった
+          </div>
+          <div class="col-1"></div>
+        </div>
+        <hr class ="my-4">
+        <h3>エージェントに対する信頼度</h3>
+        <p>
+          映画を推薦するエージェントに対する直感的な信頼度を教えてください。
+        </p>
+        <div class="row">
+          <div class="col-1"></div>
+          <div class="col-2">
+            <input name="credit" type="radio" onchange="onRadioButtonChanged()" value="1" />
+            1.全然信用できない
+          </div>
+          <div class="col-2">
+            <input name="credit" type="radio" onchange="onRadioButtonChanged()" value="2" />
+            2.あまり信用できない
+          </div>
+          <div class="col-2">
+            <input name="credit" type="radio" onchange="onRadioButtonChanged()" value="3" />
+            3.どちらでもない
+          </div>
+          <div class="col-2">
+            <input name="credit" type="radio" onchange="onRadioButtonChanged()" value="4" />
+            4.少し信用できる
+          </div>
+          <div class="col-2">
+            <input name="credit" type="radio" onchange="onRadioButtonChanged()" value="5" />
+            5.とても信用できる
           </div>
           <div class="col-1"></div>
         </div>

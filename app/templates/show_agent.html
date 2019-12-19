@@ -17,7 +17,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script>
       function time_out() {
-        location.href = "/enq"
+        location.href = "/enq2"
       }
       window.onload = function() {
         setTimeout(time_out, {{ wait_time }} * 1000)
@@ -25,9 +25,11 @@
     </script>
   </head>
   <body>
+    <p></p>
     <div class="container">
       <p>
-        {{ wait_time }}秒間広告を見てください。 {{ wait_time }}秒後に自動的にアンケート画面に遷移します。
+        {{ wait_time }}秒間エージェントによる推薦を見てください。
+        {{ wait_time }}秒後に自動的にアンケート画面に遷移します。
       </p>
     </div>
     <div class="container">
@@ -72,11 +74,6 @@
             />
             {% endif %}
           </div>
-          <p>
-            <font sieze="1" color="gray"
-              >ALL rights reserved. Copyright (c) by kwmg</font
-            >
-          </p>
         </div>
       </div>
     </div>
