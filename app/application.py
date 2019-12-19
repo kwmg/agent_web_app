@@ -8,7 +8,8 @@ from dialogs import dialogs
 
 SAVE_FOLDER = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'saved_csv')
 ENQUETE_REPEAT_TIME = 4
-AD_SHOW_PERIOD = 40  # 表示する時間（秒）
+MOVIE_SHOW_PERIOD = 30
+AGENT_SHOW_PERIOD = 30
 
 application = Flask(__name__)
 application.secret_key = 'db295528b34367fa2a5a5ece8217b4b712136c171d8a6c1fca622151736495c0'
@@ -60,11 +61,11 @@ def user_login():
     session['agent_list'] = []
     session['dialog_list'] = [[], []]
     session['current_d'] = []
-    return redirect(url_for('show_ad'))
+    return redirect(url_for('show_movie_ad'))
 
 
-@application.route('/ad')
-def show_ad():
+@application.route('/movie_ad')
+def show_movie_ad():
     movie_list = [m for m in range(len(list_movie_ads))
                   if m not in session['movie_list']]
     movie_idx = movie_list[int(random.random() * len(movie_list))]
@@ -74,6 +75,14 @@ def show_ad():
     session['movie_list'] = movie_list
     print(movie_list)
 
+    session['current_movie'] = movie_idx
+    return render_template("show_movie_ad.html",
+                           wait_time=MOVIE_SHOW_PERIOD,  # 秒で指定
+                           img_movie=list_movie_ads[movie_idx])
+
+
+@application.route('/agent')
+def show_agent():
     agent_list = [a for a in range(len(agent_patterns))
                   if a not in session['agent_list']]
     agent_pat = agent_list[int(random.random() * len(agent_list))]
@@ -94,12 +103,10 @@ def show_ad():
     dl[dialog_type].append(dialog_idx)
     session['dialog_list'] = dl
 
-    session['current_movie'] = movie_idx
     session['current_ag'] = agent_pat
     session['current_d'] = dialog
-    return render_template("show_movie_ad.html",
-                           wait_time=AD_SHOW_PERIOD,
-                           img_movie=list_movie_ads[movie_idx],
+    return render_template("show_agent.html",
+                           wait_time=AGENT_SHOW_PERIOD,  # 秒で指定
                            img_agent=agent_patterns[agent_pat][1],
                            dialog=dialog)
 
@@ -147,7 +154,7 @@ def proc_enquete():
     if application.config['ENQUETE_REPEAT_TIME'] <= len(session['movie_list']):
         save_data()
         return redirect(url_for('finish'))
-    return redirect(url_for('show_ad'))
+    return redirect(url_for('show_movie_ad'))
 
 
 @application.route('/end')
