@@ -8,6 +8,7 @@ from dialogs import dialogs
 
 SAVE_FOLDER = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'saved_csv')
 ENQUETE_REPEAT_TIME = 4
+AD_SHOW_PERIOD = 40  # 表示する時間（秒）
 
 application = Flask(__name__)
 application.secret_key = 'db295528b34367fa2a5a5ece8217b4b712136c171d8a6c1fca622151736495c0'
@@ -97,7 +98,7 @@ def show_ad():
     session['current_ag'] = agent_pat
     session['current_d'] = dialog
     return render_template("show_movie_ad.html",
-                           wait_time=40,  # 秒で指定
+                           wait_time=AD_SHOW_PERIOD,
                            img_movie=list_movie_ads[movie_idx],
                            img_agent=agent_patterns[agent_pat][1],
                            dialog=dialog)
