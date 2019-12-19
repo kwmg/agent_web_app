@@ -57,6 +57,7 @@ def user_login():
     session['enq_res'] = []
     session['movie_list'] = []
     session['agent_list'] = []
+    session['dialog_list'] = [[], []]
     session['current_d'] = []
     return redirect(url_for('show_ad'))
 
@@ -65,12 +66,33 @@ def user_login():
 def show_ad():
     movie_list = [m for m in range(len(list_movie_ads))
                   if m not in session['movie_list']]
+    movie_idx = movie_list[int(random.random() * len(movie_list))]
+    # update movie history
+    movie_list = session['movie_list']
+    movie_list.append(movie_idx)
+    session['movie_list'] = movie_list
+    print(movie_list)
+
     agent_list = [a for a in range(len(agent_patterns))
                   if a not in session['agent_list']]
-    movie_idx = movie_list[int(random.random() * len(movie_list))]
     agent_pat = agent_list[int(random.random() * len(agent_list))]
-    dialog_pat = dialogs[agent_patterns[agent_pat][0]]
-    dialog = dialog_pat[int(random.random() * len(dialog_pat))]
+    # update agent pattern history
+    al = session['agent_list']
+    al.append(agent_pat)
+    session['agent_list'] = al
+    print(al)
+
+    dialog_type = agent_patterns[agent_pat][0]  # 0:single agent 1:two agents
+    dialog_pat = dialogs[dialog_type]
+    dialog_list = [d for d in range(len(dialog_pat))
+                   if d not in session['dialog_list'][dialog_type]]
+    dialog_idx = int(random.random() * len(dialog_list))
+    dialog = dialog_pat[dialog_idx]
+    # update dialog history
+    dl = session['dialog_list']
+    dl[dialog_type].append(dialog_idx)
+    session['dialog_list'] = dl
+
     session['current_movie'] = movie_idx
     session['current_ag'] = agent_pat
     session['current_d'] = dialog
@@ -104,7 +126,7 @@ def proc_enquete():
     # prepare enquete result entry
     movie_idx = session['current_movie']
     agent_pat = session['current_ag']
-    d = session['current_d']
+    dialog = session['current_d']
     enq_entry = {
         'date': datetime.datetime.now().isoformat(),
         'user_id': session['user_id'],
@@ -112,7 +134,7 @@ def proc_enquete():
         'age': session['age'],
         'idx': movie_idx,
         'pt': agent_pat,
-        'dialog': d,
+        'dialog': dialog,
         'rating': int(request.form['rating']),
         'credit': int(request.form['credit']),
         'satisfy': int(request.form['satisfy'])}
@@ -120,18 +142,8 @@ def proc_enquete():
     enq_res = session['enq_res']
     enq_res.append(enq_entry)
     session['enq_res'] = enq_res
-    # update movie history
-    movie_list = session['movie_list']
-    movie_list.append(movie_idx)
-    session['movie_list'] = movie_list
-    print(movie_list)
-    # update agent pattern history
-    ag_list = session['agent_list']
-    ag_list.append(agent_pat)
-    session['agent_list'] = ag_list
-    print(ag_list)
     # check repeat time
-    if application.config['ENQUETE_REPEAT_TIME'] <= len(movie_list):
+    if application.config['ENQUETE_REPEAT_TIME'] <= len(session['movie_list']):
         save_data()
         return redirect(url_for('finish'))
     return redirect(url_for('show_ad'))
