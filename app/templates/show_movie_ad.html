@@ -15,26 +15,28 @@
     />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script>
-      function time_out() {
-        location.href = "/enq1"
-      }
-      window.onload = function() {
-        setTimeout(time_out, {{ wait_time }} * 1000)
-      }
-    </script>
+    <script></script>
   </head>
   <body>
     <p></p>
     <div class="container">
       <p>
-        まず{{ wait_time }}秒間映画の広告を見てください。
-        {{ wait_time }}秒後にアンケート画面に遷移します。
       </p>
       <div class="row">
         <div id="movie_ad">
           <img src="../static/img/{{ img_movie }}" />
         </div>
+      </div>
+    </br>
+  </br>
+</br>
+      <div class="container">
+        <input
+          type="button"
+          onclick="location.href='/enq2'"
+          class="btn btn-success btn-lg btn-block"
+          value="アンケートを回答する"
+        />
       </div>
     </div>
   </body>

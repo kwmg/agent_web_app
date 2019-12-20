@@ -15,21 +15,11 @@
     />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script>
-      function time_out() {
-        location.href = "/enq2"
-      }
-      window.onload = function() {
-        setTimeout(time_out, {{ wait_time }} * 1000)
-      }
-    </script>
   </head>
   <body>
     <p></p>
     <div class="container">
       <p>
-        {{ wait_time }}秒間エージェントによる推薦を見てください。 
-        {{ wait_time}}秒後に自動的にアンケート画面に遷移します。
       </p>
     </div>
     <div class="container">
@@ -74,6 +64,17 @@
             />
             {% endif %}
           </div>
+        </div>
+      </br>
+    </br>
+  </br>
+        <div class="container">
+          <input
+            type="button"
+            onclick="location.href='/enq2'"
+            class="btn btn-success btn-lg btn-block"
+            value="アンケートを回答する"
+          />
         </div>
       </div>
     </div>
