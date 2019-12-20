@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Agent Experiment</title>
+
+    <link href="../static/css/index.css" rel="stylesheet" />
+    <link
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>実験説明</h1>
+      <h3>1.まず、はじめに以下のような映画の広告が表示されます。</h3>
+      <div class="border border-info">
+        <p>
+          <img src="../static/img/h2.gif" alt="映画広告"  title="映画広告" />
+        </p>
+      </div>
+      <br />
+      <h3>
+        2.次に、画面が切り替わり、表示された映画の鑑賞意欲についてアンケートがあります。
+      </h3>
+      <p></p>
+      <div class="border border-info">
+        <img
+          src="../static/img/ex_enq1.png"
+          alt="アンケート"
+          title="アンケート"
+          width="900"
+          height="400"
+        />
+      </div>
+
+      <p></p>
+      <h4>回答することができたら、Submitボタンを押してください。</h4>
+      <br />
+      <h3>
+        3.次に、画面が切り替わり、エージェントが映画を推薦します。(15秒)
+      </h3>
+      <p></p>
+      <div class="border border-info">
+        <p>
+          <img
+            src="../static/img/ex_ag.png"
+            alt="エージェント"
+            title="エージェント"
+            width="900"
+            height="400"
+          />
+        </p>
+      </div>
+      <br />
+      <h3>
+        4.自動で画面が切り替わり、以下のようなアンケートの画面に切り替わります。
+      </h3>
+      <p></p>
+      <div class="border border-info">
+        <p>
+          <img
+            src="../static/img/ex_enq2.png"
+            alt="エージェント"
+            title="エージェント"
+            width="900"
+            height="500"
+          />
+        </p>
+      </div>
+      <h4>
+        ①エージェントに推薦された結果、映画に対する鑑賞意欲が変わりましたか？
+      </h4>
+      <h4>
+        ②映画を推薦するエージェントに対する直感的な信頼度を教えてください。
+      </h4>
+      <h4>回答することができたら、Submitボタンを押してください。</h4>
+      <p></p>
+      <h3>映画の推薦は4回行われます。回答よろしくお願いいたします。</h3>
+      <br />
+
+      <input
+        type="button btn-block"
+        onclick="location.href='/movie_ad'"
+        class="btn btn-success"
+        value="実験を始める"
+      />
+      <br />
+      <br />
+    </div>
+  </body>
+</html>

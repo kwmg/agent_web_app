@@ -61,6 +61,10 @@ def user_login():
     session['agent_list'] = []
     session['dialog_list'] = [[], []]
     session['current_d'] = []
+    return render_template ('outline.html')
+
+@application.route('/outline')
+def outline():
     return redirect(url_for('show_movie_ad'))
 
 
