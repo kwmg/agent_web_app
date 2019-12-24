@@ -111,7 +111,7 @@ def show_agent():
     dialog_type = agent_patterns[agent_pat][0]  # 0:single agent 1:two agents
     dialog_list = [d for d in range(len(dialogs[dialog_type]))
                    if dialog_type * 1000 + d not in session['dialog_list']]
-    dialog_idx = int(random.random() * len(dialog_list))
+    dialog_idx = dialog_list[int(random.random() * len(dialog_list))]
     dialog = dialogs[dialog_type][dialog_idx]
     # update dialog history
     dl = session['dialog_list']
