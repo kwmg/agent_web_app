@@ -59,9 +59,10 @@ def user_login():
     session['enq_res'] = []
     session['movie_list'] = []
     session['agent_list'] = []
-    session['dialog_list'] = [[], []]
+    session['dialog_list'] = []
     session['current_d'] = []
-    return render_template ('outline.html')
+    return render_template('outline.html')
+
 
 @application.route('/outline')
 def outline():
@@ -77,7 +78,7 @@ def show_movie_ad():
     movie_list = session['movie_list']
     movie_list.append(movie_idx)
     session['movie_list'] = movie_list
-    print(movie_list)
+    print("movie_list: {}".format(movie_list))
 
     session['current_movie'] = movie_idx
     return render_template("show_movie_ad.html",
@@ -105,19 +106,18 @@ def show_agent():
     al = session['agent_list']
     al.append(agent_pat)
     session['agent_list'] = al
-    print(al)
+    print("agent_list:{}".format(al))
 
     dialog_type = agent_patterns[agent_pat][0]  # 0:single agent 1:two agents
-    dialog_pat = dialogs[dialog_type]
-    dialog_list = [d for d in range(len(dialog_pat))
-                   if d not in session['dialog_list'][dialog_type]]
+    dialog_list = [d for d in range(len(dialogs[dialog_type]))
+                   if dialog_type * 1000 + d not in session['dialog_list']]
     dialog_idx = int(random.random() * len(dialog_list))
-    dialog = dialog_pat[dialog_idx]
+    dialog = dialogs[dialog_type][dialog_idx]
     # update dialog history
     dl = session['dialog_list']
-    dl[dialog_type].append(dialog_idx)
+    dl.append(dialog_type * 1000 + dialog_idx)
     session['dialog_list'] = dl
-    print(dl)
+    print("dialg_list:{}".format(dl))
 
     session['current_ag'] = agent_pat
     session['current_d'] = dialog
